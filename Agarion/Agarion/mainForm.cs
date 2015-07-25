@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Agarion.IO;
+
 namespace Agarion
 {
     /// <summary>
@@ -33,6 +35,16 @@ namespace Agarion
         {
             this.lbConsole.Visible = !this.lbConsole.Visible;
             this.btnHideShowConsole.Text = (this.lbConsole.Visible) ? "Hide Console" : "Show Console";
+        }
+
+        /// <summary>
+        /// An event that fires after the form has loaded
+        /// </summary>
+        /// <param name="sender">The sending object - which would be the form</param>
+        /// <param name="e">The event arguments</param>
+        private void mainForm_Load(object sender, EventArgs e)
+        {
+            Bot.Initialize(this.lbConsole);
         }
     }
 }

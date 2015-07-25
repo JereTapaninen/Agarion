@@ -38,10 +38,12 @@ namespace Agarion.IO.DebugTools
             message = "[Agarion] " + message;
 
             Debug.WriteLine(message);
-            Console.WriteLine(message);
 
-            if (this.console is ListBox)
-                (this.console as ListBox).Items.Add(message);
+            this.console.Invoke(new MethodInvoker(() =>
+            {
+                if (this.console is ListBox)
+                    (this.console as ListBox).Items.Add(message);
+            }));
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Agarion.IO.ThreadingTools
         /// </summary>
         /// <param name="method">The method</param>
         /// <param name="parameters">The parameters of the method</param>
-        /// <param name="afterN">Optional. Uses milliseconds. Used for delaing method execution.</param>
+        /// <param name="afterN">Optional. Uses milliseconds. Used for delaying method execution.</param>
         public static void ExecuteMethod(Action<dynamic> method, dynamic parameters, int afterN = 0)
         {
             new Thread(() =>
@@ -35,7 +35,7 @@ namespace Agarion.IO.ThreadingTools
         /// </summary>
         /// <param name="method">The method</param>
         /// <param name="parameters">The parameters of the method</param>
-        /// <param name="afterN">Optional. Uses milliseconds. Used for delaing method execution.</param>
+        /// <param name="afterN">Optional. Uses milliseconds. Used for delaying method execution.</param>
         public static void ExecuteMethod(Action method, int afterN = 0)
         {
             new Thread(() =>

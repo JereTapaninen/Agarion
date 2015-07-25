@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="IO\Bot.cs" />
     <Compile Include="IO\DebugTools\AgarionConsole.cs" />
+    <Compile Include="IO\ThreadingTools\AsyncHelper.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>

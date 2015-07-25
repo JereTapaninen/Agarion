@@ -124,6 +124,7 @@
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Agarion";
+            this.Load += new System.EventHandler(this.mainForm_Load);
             this.menustripMain.ResumeLayout(false);
             this.menustripMain.PerformLayout();
             this.toolstripMain.ResumeLayout(false);

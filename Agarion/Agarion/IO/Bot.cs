@@ -20,7 +20,7 @@ namespace Agarion.IO
         /// <summary>
         /// The main console object that the bot uses to send output
         /// </summary>
-        public static AgarionConsole Console { public get; private set; }
+        public static AgarionConsole Console { get; private set; }
 
         /// <summary>
         /// Initializes the bot.
@@ -43,7 +43,7 @@ namespace Agarion.IO
         /// </summary>
         public static void Start()
         {
-
+            Console.Log("hello world!");
         }
     }
 }
