@@ -1,1 +1,9 @@
 C:\VS\Agarion\Agarion\Agarion\Agarion\bin\Debug\Agarion.exe.config
+C:\VS\Agarion\Agarion\Agarion\Agarion\bin\Debug\Agarion.exe
+C:\VS\Agarion\Agarion\Agarion\Agarion\bin\Debug\Agarion.pdb
+C:\VS\Agarion\Agarion\Agarion\Agarion\obj\Debug\Agarion.csprojResolveAssemblyReference.cache
+C:\VS\Agarion\Agarion\Agarion\Agarion\obj\Debug\Agarion.Properties.Resources.resources
+C:\VS\Agarion\Agarion\Agarion\Agarion\obj\Debug\Agarion.csproj.GenerateResource.Cache
+C:\VS\Agarion\Agarion\Agarion\Agarion\obj\Debug\Agarion.exe
+C:\VS\Agarion\Agarion\Agarion\Agarion\obj\Debug\Agarion.pdb
+C:\VS\Agarion\Agarion\Agarion\Agarion\obj\Debug\Agarion.mainForm.resources
