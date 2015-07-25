@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 using Agarion.IO.DebugTools;
 using Agarion.IO.ThreadingTools;
+using Agarion.IO.ScreenTools;
 
 namespace Agarion.IO
 {
@@ -23,15 +24,24 @@ namespace Agarion.IO
         public static AgarionConsole Console { get; private set; }
 
         /// <summary>
+        /// The main web browser object that the bot uses
+        /// </summary>
+        public static WebBrowser Browser { get; private set; }
+
+        /// <summary>
         /// Initializes the bot.
         /// Starts the bot after 5 seconds.
         /// </summary>
         /// <param name="console">The console object - should be of type ListBox</param>
-        public static void Initialize(Control console)
+        public static void Initialize(WebBrowser browser, Control console)
         {
+            if (browser == null || console == null)
+                return;
+
             if (console is ListBox == false)
                 Debug.WriteLine("[Agarion] Warning: Console is not of type ListBox. This could cause unexpected behavior in the future.");
 
+            Browser = browser;
             Console = new AgarionConsole(console);
 
             AsyncHelper.ExecuteMethod(Start, 5000);
@@ -43,7 +53,12 @@ namespace Agarion.IO
         /// </summary>
         public static void Start()
         {
-            Console.Log("hello world!");
+            Console.Log("Starting Agarion...");
+
+            // Start the screenhandler
+            ScreenHandler.Initialize(ScreenId.Second);
+
+            Console.Log("Started!");
         }
     }
 }

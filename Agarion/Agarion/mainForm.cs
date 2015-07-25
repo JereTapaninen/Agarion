@@ -44,7 +44,7 @@ namespace Agarion
         /// <param name="e">The event arguments</param>
         private void mainForm_Load(object sender, EventArgs e)
         {
-            Bot.Initialize(this.lbConsole);
+            Bot.Initialize(this.wbBot, this.lbConsole);
         }
     }
 }
