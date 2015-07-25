@@ -147,7 +147,7 @@ namespace Agarion.IO.ScreenTools
             if (!Bot.IsBotActiveAndRunning())
                 return screenshot.Clone(new Rectangle(0, 0, screenshot.Width, screenshot.Height), PixelFormat.Format32bppArgb);
 
-            var point = new Point(Bot.CurrentWindowPosition.X + Bot.Browser.Location.X + Bot.BorderWidth, Bot.CurrentWindowPosition.Y + Bot.Browser.Location.Y + Bot.TitlebarHeight);
+            var point = new Point(Bot.UI.Window.Position.X + Bot.Browser.Location.X + Bot.UI.Offsets.Width, Bot.UI.Window.Position.Y + Bot.Browser.Location.Y + Bot.UI.Offsets.Height);
 
             return screenshot.Clone(new Rectangle(point, Bot.Browser.Size), screenshot.PixelFormat);
         }

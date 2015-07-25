@@ -52,14 +52,18 @@ namespace Agarion
 
         public void Update(int uptime)
         {
-            Bot.CurrentWindowPosition = this.DesktopLocation;
-            Bot.CurrentWindowSize = this.Size;
+            var cWindowPos = this.DesktopLocation;
+            var cWindowSize = this.Size;
+
+            Bot.UI.SetWindow(cWindowPos, cWindowSize);
+
             Bot.Browser = this.wbBot;
 
             Invoke(new MethodInvoker(() =>
             {
-                Bot.TitlebarHeight = RectangleToScreen(this.ClientRectangle).Top - this.Top;
-                Bot.BorderWidth = RectangleToScreen(this.ClientRectangle).Left - this.Left;
+                var titlebarH = RectangleToScreen(this.ClientRectangle).Top - this.Top;
+                var borderW = RectangleToScreen(this.ClientRectangle).Left - this.Left;
+                Bot.UI.SetOffsets(new Size(borderW, titlebarH));
             }));
         }
     }

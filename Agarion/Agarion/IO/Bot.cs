@@ -47,24 +47,9 @@ namespace Agarion.IO
         public static bool Running { get; private set; }
 
         /// <summary>
-        /// Gets or sets the current window position
+        /// Gets the UI API.
         /// </summary>
-        public static Point CurrentWindowPosition { get; set; }
-
-        /// <summary>
-        /// Gets or sets the current window size
-        /// </summary>
-        public static Size CurrentWindowSize { get; set; }
-
-        /// <summary>
-        /// Gets or sets the titlebar's height
-        /// </summary>
-        public static int TitlebarHeight { get; set; }
-
-        /// <summary>
-        /// Gets or sets the border's width
-        /// </summary>
-        public static int BorderWidth { get; set; }
+        public static UIHandler UI { get; private set; }
 
         /// <summary>
         /// Initializes the bot.
@@ -81,6 +66,8 @@ namespace Agarion.IO
 
             // Set the current process
             CurrentProcess = Process.GetCurrentProcess();
+
+            UI = new UIHandler();
 
             Browser = browser;
             Console = new AgarionConsole(console);

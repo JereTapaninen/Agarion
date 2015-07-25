@@ -48,6 +48,7 @@
     <Compile Include="IO\DebugTools\AgarionConsole.cs" />
     <Compile Include="IO\ScreenTools\ScreenHandler.cs" />
     <Compile Include="IO\ThreadingTools\AsyncHelper.cs" />
+    <Compile Include="IO\UIHandler.cs" />
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
