@@ -74,7 +74,7 @@ namespace Agarion.IO.ScreenTools
         {
             Running = true;
 
-            CaptureScreen();
+            AsyncHelper.ExecuteUpdatingMethod(CaptureScreen, Bot.IsBotActiveAndRunning, true, 150);
         }
 
         /// <summary>
@@ -104,14 +104,11 @@ namespace Agarion.IO.ScreenTools
         /// <summary>
         /// Captures the screen until the application is stopped
         /// </summary>
-        private static void CaptureScreen()
+        private static void CaptureScreen(int uptime)
         {
             // If handler is not running, stop immediately.
             if (!Running)
                 return;
-
-            // If the bot window is not active, wait until it is.
-            AsyncHelper.WaitUntil(Bot.IsBotActive, true);
 
             // Set the graphics object and dispose it automatically
             using (var screenshot = Graphics.FromImage(ScreenBitmap))
@@ -122,9 +119,6 @@ namespace Agarion.IO.ScreenTools
                 // Set the current screenshot
                 CurrentScreenshot = ScreenBitmap;
             }
-
-            // Execute this function again after 150 msec
-            AsyncHelper.ExecuteMethod(CaptureScreen, 150);
         }
     }
 }
