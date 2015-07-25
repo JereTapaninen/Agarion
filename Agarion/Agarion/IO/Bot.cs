@@ -41,6 +41,11 @@ namespace Agarion.IO
         public static Process CurrentProcess { get; private set; }
 
         /// <summary>
+        /// Gets whether the bot is running or not
+        /// </summary>
+        public static bool Running { get; private set; }
+
+        /// <summary>
         /// Initializes the bot.
         /// Starts the bot after 5 seconds.
         /// </summary>
@@ -70,10 +75,33 @@ namespace Agarion.IO
         {
             Console.Log("Starting Agarion...");
 
+            Running = true;
+
             // Start the screenhandler
             ScreenHandler.Initialize(ScreenId.Second);
 
+            // Start the update method.
+            AsyncHelper.ExecuteUpdatingMethod(Update, IsBotActiveAndRunning, true, 10);
+
             Console.Log("Started!");
+        }
+
+        /// <summary>
+        /// Stops the bot.
+        /// </summary>
+        public static void Stop()
+        {
+            Running = false;
+        }
+
+        /// <summary>
+        /// The update method.
+        /// Updates every 10 msec.
+        /// </summary>
+        /// <param name="uptime">The current uptime.</param>
+        private static void Update(int uptime)
+        {
+            
         }
 
         /// <summary>
@@ -97,6 +125,15 @@ namespace Agarion.IO
             GetWindowThreadProcessId(handle, out activeWindowId);
 
             return pId == activeWindowId;
+        }
+
+        /// <summary>
+        /// Gets whether the bot is active and also running.
+        /// </summary>
+        /// <returns>Returns the bot's active & running state.</returns>
+        public static bool IsBotActiveAndRunning()
+        {
+            return IsBotActive() && Running;
         }
     }
 }

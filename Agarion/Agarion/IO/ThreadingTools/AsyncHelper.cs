@@ -47,6 +47,38 @@ namespace Agarion.IO.ThreadingTools
         }
 
         /// <summary>
+        /// Executes an updating method with an interval and stop switch.
+        /// </summary>
+        /// <param name="method">The method to update continuously.</param>
+        /// <param name="stopWhenFalse">The switch (when this function returns false, stops the updating)</param>
+        /// <param name="idleWhileFalse">True if you want the bot to continue as soon as the switch returns true again.</param>
+        /// <param name="interval">The interval between updates. Set to 0 for no updates.</param>
+        public static void ExecuteUpdatingMethod(Action<int> method, Func<bool> stopWhenFalse, bool idleWhileFalse = true, int interval = 1)
+        {
+            new Thread(() =>
+            {
+                var frameTime = 0;
+
+                do
+                {
+                    while (stopWhenFalse())
+                    {
+                        if (frameTime + interval > int.MaxValue)
+                            frameTime = 0;
+
+                        method(frameTime);
+
+                        Thread.Sleep(interval);
+
+                        frameTime += interval;
+                    }
+
+                    Thread.Sleep(1);
+                } while (idleWhileFalse);
+            }).Start();
+        }
+
+        /// <summary>
         /// Waits until function a's return value is equal to boolean b
         /// This function presumes that you are using this from a different thread than the UI handling thread.
         /// PLEASE DO NOT USE THIS IN THE MAIN UI THREAD.
