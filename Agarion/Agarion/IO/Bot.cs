@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Drawing;
 
 using Agarion.IO.DebugTools;
 using Agarion.IO.ThreadingTools;
@@ -33,7 +34,7 @@ namespace Agarion.IO
         /// <summary>
         /// The main web browser object that the bot uses
         /// </summary>
-        public static WebBrowser Browser { get; private set; }
+        public static WebBrowser Browser { get; set; }
 
         /// <summary>
         /// The bot's current process
@@ -44,6 +45,26 @@ namespace Agarion.IO
         /// Gets whether the bot is running or not
         /// </summary>
         public static bool Running { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the current window position
+        /// </summary>
+        public static Point CurrentWindowPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current window size
+        /// </summary>
+        public static Size CurrentWindowSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets the titlebar's height
+        /// </summary>
+        public static int TitlebarHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the border's width
+        /// </summary>
+        public static int BorderWidth { get; set; }
 
         /// <summary>
         /// Initializes the bot.
@@ -78,7 +99,7 @@ namespace Agarion.IO
             Running = true;
 
             // Start the screenhandler
-            ScreenHandler.Initialize(ScreenId.Second);
+            ScreenHandler.Initialize(ScreenHandler.GetMiddleScreen());
 
             // Start the update method.
             AsyncHelper.ExecuteUpdatingMethod(Update, IsBotActiveAndRunning, true, 10);

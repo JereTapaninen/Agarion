@@ -24,9 +24,9 @@ namespace Agarion.IO.ScreenTools
     public static class ScreenHandler
     {
         /// <summary>
-        /// Gets the most current screenshot
+        /// Gets the most current screenshot of the window.
         /// </summary>
-        public static Bitmap CurrentScreenshot { get; private set; }
+        public static Bitmap CurrentWindowSnap { get; private set; }
 
         /// <summary>
         /// Gets whether the handler is running or not
@@ -43,6 +43,11 @@ namespace Agarion.IO.ScreenTools
         /// The screenshot bitmap. Used for temporary stuff only.
         /// </summary>
         private static Bitmap ScreenBitmap { get; set; }
+
+        /// <summary>
+        /// Gets the most current screenshot
+        /// </summary>
+        private static Bitmap CurrentScreenshot { get; set; }
 
         /// <summary>
         /// Initializes the handler
@@ -90,15 +95,24 @@ namespace Agarion.IO.ScreenTools
         }
 
         /// <summary>
-        /// Saves the current screenshot
+        /// Saves the specified screenshot
         /// </summary>
         /// <param name="path">The path. Default is /currentdir/cap.png</param>
-        public static void SaveCurrentScreenshot(string path = "cap.png")
+        public static void SaveScreenshot(Bitmap bmp, string path = "cap.png")
         {
             if (File.Exists(path))
                 File.Delete(path);
 
-            CurrentScreenshot.Save(path, ImageFormat.Png);
+            bmp.Save(path, ImageFormat.Png);
+        }
+
+        /// <summary>
+        /// Gets the center-most screen
+        /// </summary>
+        /// <returns>The center-most screen</returns>
+        public static ScreenId GetMiddleScreen()
+        {
+            return (Screen.AllScreens.Length == 1) ? ScreenId.First : (Screen.AllScreens.Length == 5) ? ScreenId.Third : ScreenId.Second;
         }
 
         /// <summary>
@@ -118,7 +132,24 @@ namespace Agarion.IO.ScreenTools
 
                 // Set the current screenshot
                 CurrentScreenshot = ScreenBitmap;
+
+                CurrentWindowSnap = ParseWindowFromScreenshot(CurrentScreenshot);
             }
+        }
+
+        /// <summary>
+        /// Parses the bot window from the original screenshot and 
+        /// </summary>
+        /// <param name="screenshot"></param>
+        /// <returns></returns>
+        private static Bitmap ParseWindowFromScreenshot(Bitmap screenshot)
+        {
+            if (!Bot.IsBotActiveAndRunning())
+                return screenshot.Clone(new Rectangle(0, 0, screenshot.Width, screenshot.Height), PixelFormat.Format32bppArgb);
+
+            var point = new Point(Bot.CurrentWindowPosition.X + Bot.Browser.Location.X + Bot.BorderWidth, Bot.CurrentWindowPosition.Y + Bot.Browser.Location.Y + Bot.TitlebarHeight);
+
+            return screenshot.Clone(new Rectangle(point, Bot.Browser.Size), screenshot.PixelFormat);
         }
     }
 }

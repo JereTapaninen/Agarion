@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Agarion.IO;
+using Agarion.IO.ThreadingTools;
 
 namespace Agarion
 {
@@ -45,6 +46,21 @@ namespace Agarion
         private void mainForm_Load(object sender, EventArgs e)
         {
             Bot.Initialize(this.wbBot, this.lbConsole);
+
+            AsyncHelper.ExecuteUpdatingMethod(this.Update, Bot.IsBotActiveAndRunning, true, 10);
+        }
+
+        public void Update(int uptime)
+        {
+            Bot.CurrentWindowPosition = this.DesktopLocation;
+            Bot.CurrentWindowSize = this.Size;
+            Bot.Browser = this.wbBot;
+
+            Invoke(new MethodInvoker(() =>
+            {
+                Bot.TitlebarHeight = RectangleToScreen(this.ClientRectangle).Top - this.Top;
+                Bot.BorderWidth = RectangleToScreen(this.ClientRectangle).Left - this.Left;
+            }));
         }
     }
 }
