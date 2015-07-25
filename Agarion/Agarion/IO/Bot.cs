@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 using Agarion.IO.DebugTools;
 using Agarion.IO.ThreadingTools;
@@ -18,6 +19,12 @@ namespace Agarion.IO
     /// </summary>
     public static class Bot
     {
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern int GetWindowThreadProcessId(IntPtr handle, out int processId);
+
         /// <summary>
         /// The main console object that the bot uses to send output
         /// </summary>
@@ -27,6 +34,11 @@ namespace Agarion.IO
         /// The main web browser object that the bot uses
         /// </summary>
         public static WebBrowser Browser { get; private set; }
+
+        /// <summary>
+        /// The bot's current process
+        /// </summary>
+        public static Process CurrentProcess { get; private set; }
 
         /// <summary>
         /// Initializes the bot.
@@ -40,6 +52,9 @@ namespace Agarion.IO
 
             if (console is ListBox == false)
                 Debug.WriteLine("[Agarion] Warning: Console is not of type ListBox. This could cause unexpected behavior in the future.");
+
+            // Set the current process
+            CurrentProcess = Process.GetCurrentProcess();
 
             Browser = browser;
             Console = new AgarionConsole(console);
@@ -59,6 +74,29 @@ namespace Agarion.IO
             ScreenHandler.Initialize(ScreenId.Second);
 
             Console.Log("Started!");
+        }
+
+        /// <summary>
+        /// Gets whether the bot window is active.
+        /// </summary>
+        /// <returns>Whether the bot window is active or not.</returns>
+        public static bool IsBotActive()
+        {
+            // Get the top-most window.
+            var handle = GetForegroundWindow();
+
+            if (handle == IntPtr.Zero)
+                // Handle is zero. Window is not active.
+                return false;
+
+            // Get the current process id
+            var pId = CurrentProcess.Id;
+            int activeWindowId;
+
+            // Set the active window id
+            GetWindowThreadProcessId(handle, out activeWindowId);
+
+            return pId == activeWindowId;
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
+using System.IO;
 
 using Agarion.IO.ThreadingTools;
 
@@ -38,6 +39,9 @@ namespace Agarion.IO.ScreenTools
         /// </summary>
         private static Screen CurrentScreen { get; set; }
 
+        /// <summary>
+        /// The screenshot bitmap. Used for temporary stuff only.
+        /// </summary>
         private static Bitmap ScreenBitmap { get; set; }
 
         /// <summary>
@@ -86,6 +90,18 @@ namespace Agarion.IO.ScreenTools
         }
 
         /// <summary>
+        /// Saves the current screenshot
+        /// </summary>
+        /// <param name="path">The path. Default is /currentdir/cap.png</param>
+        public static void SaveCurrentScreenshot(string path = "cap.png")
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+
+            CurrentScreenshot.Save(path, ImageFormat.Png);
+        }
+
+        /// <summary>
         /// Captures the screen until the application is stopped
         /// </summary>
         private static void CaptureScreen()
@@ -93,6 +109,9 @@ namespace Agarion.IO.ScreenTools
             // If handler is not running, stop immediately.
             if (!Running)
                 return;
+
+            // If the bot window is not active, wait until it is.
+            AsyncHelper.WaitUntil(Bot.IsBotActive, true);
 
             // Set the graphics object and dispose it automatically
             using (var screenshot = Graphics.FromImage(ScreenBitmap))

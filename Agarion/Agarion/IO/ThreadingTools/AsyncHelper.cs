@@ -45,5 +45,20 @@ namespace Agarion.IO.ThreadingTools
                 method();
             }).Start();
         }
+
+        /// <summary>
+        /// Waits until function a's return value is equal to boolean b
+        /// This function presumes that you are using this from a different thread than the UI handling thread.
+        /// PLEASE DO NOT USE THIS IN THE MAIN UI THREAD.
+        /// </summary>
+        /// <param name="a">The function</param>
+        /// <param name="b">The bool</param>
+        public static void WaitUntil(Func<bool> a, bool b)
+        {
+            while (a() != b) 
+            {
+                Thread.Sleep(1);
+            }
+        }
     }
 }
